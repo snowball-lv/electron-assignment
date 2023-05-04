@@ -1,4 +1,5 @@
 import React, {useState} from "react";
+import "./App.css"
 
 export default function App() {
     const [count, setCount] = useState(0);
@@ -13,9 +14,9 @@ export default function App() {
     });
     return (
         <div>
-            <p>Count: {count}</p>
-            <button onClick={increment}>+1</button>
+            <p class={"text"}>Count: {count}</p>
             <button onClick={decrement}>-1</button>
+            <button onClick={increment}>+1</button>
         </div>
     );
 }

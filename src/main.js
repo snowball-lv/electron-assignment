@@ -1,4 +1,4 @@
-const { app, BrowserWindow, ipcMain } = require("electron");
+const { app, BrowserWindow, ipcMain, Menu } = require("electron");
 const fs = require("fs");
 const path = require("path");
 const conf = require("bindings")("conf");
@@ -13,12 +13,15 @@ const confPath = path.join(app.getPath("desktop"), "counter.json");
 const createWindow = () => {
     // Create the browser window.
     const mainWindow = new BrowserWindow({
-        width: 800,
-        height: 600,
+        width: 480,
+        height: 320,
         webPreferences: {
             preload: MAIN_WINDOW_PRELOAD_WEBPACK_ENTRY,
         },
     });
+
+    // hide menu
+    Menu.setApplicationMenu(null);
 
     /*
     // read counter only with js
@@ -65,7 +68,7 @@ const createWindow = () => {
             }
         });
         */
-       
+
         // update counter through addon
         conf.writeCounter(confPath, newval);
     });
@@ -74,7 +77,7 @@ const createWindow = () => {
     mainWindow.loadURL(MAIN_WINDOW_WEBPACK_ENTRY);
 
     // Open the DevTools.
-    mainWindow.webContents.openDevTools();
+    // mainWindow.webContents.openDevTools();
 };
 
 // This method will be called when Electron has finished
