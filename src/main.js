@@ -65,6 +65,7 @@ const createWindow = () => {
             }
         });
         */
+       
         // update counter through addon
         conf.writeCounter(confPath, newval);
     });

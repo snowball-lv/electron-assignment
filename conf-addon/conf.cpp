@@ -7,6 +7,7 @@
 
 static std::string readFile(const std::string &path) {
     std::ifstream file(path);
+    if (!file) return "";
     std::stringstream buf;
     buf << file.rdbuf();
     return buf.str();
@@ -19,6 +20,7 @@ static void writeFile(const std::string &path, const std::string &str) {
 
 static Napi::Object readJsonObj(Napi::Env &env, const std::string &path) {
     auto confstr = Napi::String::New(env, readFile(path));
+    if (confstr.empty()) confstr = "{}";
     auto json = env.Global().Get("JSON").As<Napi::Object>();
     auto json_parse = json.Get("parse").As<Napi::Function>();
     auto obj = json_parse.Call(json, {confstr}).As<Napi::Object>();
