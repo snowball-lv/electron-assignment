@@ -5,9 +5,9 @@
 
 // XXX: should validate params and results in a real scenario
 
-static std::string readFile(const std::string &path) {
+static std::string readFile(const std::string &path, const std::string &def) {
     std::ifstream file(path);
-    if (!file) return "";
+    if (!file) return def;
     std::stringstream buf;
     buf << file.rdbuf();
     return buf.str();
@@ -19,8 +19,7 @@ static void writeFile(const std::string &path, const std::string &str) {
 }
 
 static Napi::Object readJsonObj(Napi::Env &env, const std::string &path) {
-    auto confstr = Napi::String::New(env, readFile(path));
-    if (confstr.empty()) confstr = "{}";
+    auto confstr = Napi::String::New(env, readFile(path, "{}"));
     auto json = env.Global().Get("JSON").As<Napi::Object>();
     auto json_parse = json.Get("parse").As<Napi::Function>();
     auto obj = json_parse.Call(json, {confstr}).As<Napi::Object>();
